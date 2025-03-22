@@ -24,7 +24,7 @@ Route::post('login', [App\Http\Controllers\Api\UserAuthController::class, 'login
 Route::prefix('/v1')->middleware('auth:api')->group(function () {
    Route::get('/user', [App\Http\Controllers\Api\UserAuthController::class, 'userInfo']);
    Route::get('/userdata/{id}', [App\Http\Controllers\Api\UserAuthController::class, 'userData']);
-   Route::put('/user/{id}', [App\Http\Controllers\Api\UserAuthController::class , 'update']);
+   Route::put('/user-update/{id}', [App\Http\Controllers\Api\UserAuthController::class , 'update']);
    Route::delete('/user/{id}', [App\Http\Controllers\Api\UserAuthController::class , 'delete']);
    Route::post('/logout', [App\Http\Controllers\Api\UserAuthController::class, 'logout']);
 });

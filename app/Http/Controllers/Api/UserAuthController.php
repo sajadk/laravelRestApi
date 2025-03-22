@@ -116,12 +116,18 @@ class UserAuthController extends Controller
     public function update(Request $request, $id)
     {
         //var_dump($id); exit();
-        $this->validate($request, [
+        $validator = Validator::make($request->all(), [
             'name' => 'required|min:4',
             'username' => 'required|unique:users,username,'.$id,
             'email' => 'required|email',
-            'password' => 'required|min:5',
+            'phone' => 'required',
+            'password' => 'nullable|min:5', // Make password optional for updates
         ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+
         $user = User::find($id);
         $user->name = $request->name;
         $user->email = $request->email;
