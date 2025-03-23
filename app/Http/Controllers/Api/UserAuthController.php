@@ -9,6 +9,7 @@ use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Carbon\Carbon;
 
 class UserAuthController extends Controller
 {
@@ -73,8 +74,13 @@ class UserAuthController extends Controller
 
         if (Auth::attempt($data)) {
             $user = Auth::user();
-            $token = $user->createToken("LaravelRestApi")->accessToken;
-            return response()->json(['user' => auth()->user(),"token" => $token], 200);
+            $tokenResult = $user->createToken("LaravelRestApi");
+            $token = $tokenResult->accessToken;
+            $tokenExpiry = Carbon::parse($tokenResult->token->expires_at)->timestamp; 
+            return response()->json(
+                ['user' => auth()->user(),
+                "token" => $token,
+                'expires_in' => $tokenExpiry - now()->timestamp], 200);
         } else {
             return response()->json(["error" => "Unauthorised"], 401);
         }
