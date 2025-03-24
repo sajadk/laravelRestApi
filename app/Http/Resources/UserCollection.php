@@ -14,6 +14,11 @@ class UserCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        return [
+            'data' => UserResource::collection($this->collection),
+            'meta' => [
+                'total_users' => $this->collection->count(),
+            ],
+        ];
     }
 }
