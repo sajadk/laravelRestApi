@@ -97,7 +97,7 @@ class UserAuthController extends Controller
 
     public function userInfo()
     {
-        $user = new UserCollection(User::all());
+        $user = new UserCollection(User::paginate());
 
        // var_dump($user);
         return response()->json(
