@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 use App\Models\User;
+use App\Http\Resources\UserCollection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
@@ -96,7 +97,7 @@ class UserAuthController extends Controller
 
     public function userInfo()
     {
-        $user = User::all();
+        $user = new UserCollection(User::paginate());
 
        // var_dump($user);
         return response()->json(
